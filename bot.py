@@ -86,6 +86,18 @@ async def cmd_start(event: types.Message | types.CallbackQuery):
     else:
         await event.message.edit_text(text, reply_markup=reply_markup, parse_mode="Markdown")
 
+@dp.callback_query(F.data == "main_menu")
+async def back_to_main(callback: types.CallbackQuery):
+    user_id = callback.from_user.id
+    if user_id in ADMIN_IDS:
+        text = "🚀 **پنل مدیریت پیشرفته GPT Admin**\n\nخوش آمدید قربان. وضعیت سیستم در حالت عادی است."
+        reply_markup = kb.main_menu()
+    else:
+        text = "👋 **به ربات خرید اشتراک ChatGPT خوش آمدید**\n\nاز منوی زیر برای خرید یا مدیریت اشتراک خود استفاده کنید:"
+        reply_markup = kb.user_main_menu()
+    await callback.message.edit_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+    await callback.answer()
+
 # --- Handlers: User Flow ---
 
 @dp.callback_query(F.data == "view_packages")
@@ -237,6 +249,8 @@ async def admin_reject_pay(callback: types.CallbackQuery):
     await bot.send_message(pay.user_id, "❌ متاسفانه فیش ارسالی شما رد شد. لطفا در صورت نیاز با پشتیبانی تماس بگیرید.")
     await callback.message.edit_caption(caption="❌ فیش رد شد.")
     await callback.answer()
+
+@dp.callback_query(F.data == "add_account_new", IsAdmin())
 async def add_account_start(callback: types.CallbackQuery, state: FSMContext):
     await callback.message.edit_text("📧 ایمیل مالک اکانت (Owner Email) را وارد کنید:")
     await state.set_state(AddAccountState.email)
