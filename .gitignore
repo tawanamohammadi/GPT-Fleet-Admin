@@ -3,5 +3,4 @@ venv/
 *.db
 __pycache__/
 *.csv
-*.service
 *.log

@@ -1,0 +1,13 @@
+[Unit]
+Description=GPT Admin Telegram Bot
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root/GPT-Fleet-Admin
+ExecStart=/root/GPT-Fleet-Admin/venv/bin/python3 bot.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -11,7 +11,7 @@ def setup():
         f.write(env_content)
     
     print("\n✅ Configuration saved to .env file!")
-    print("Now you can run the bot using: python bot.py")
+    print("Now you can run the bot using: python3 bot.py")
 
 if __name__ == "__main__":
     setup()
